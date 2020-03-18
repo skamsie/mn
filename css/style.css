@@ -3,6 +3,34 @@ body {
   font-family: Lato, sans-serif;
 }
 
+@font-face {
+  font-family: Lato;
+  src: url('../fonts/lato/LatoLatin-Regular.woff') format('woff'),
+       url('../fonts/lato/LatoLatin-Regular.ttf') format('truetype');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: Lato;
+  src: url('../fonts/lato/LatoLatin-Light.woff') format('woff'),
+       url('../fonts/lato/LatoLatin-Light.ttf') format('truetype');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: Lato;
+  src: url('../fonts/lato/LatoLatin-Medium.woff') format('woff'),
+       url('../fonts/lato/LatoLatin-Medium.ttf') format('truetype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: Lato;
+  src: url('../fonts/lato/LatoLatin-Semibold.woff') format('woff'),
+       url('../fonts/lato/LatoLatin-Semibold.ttf') format('truetype');
+  font-weight: bold;
+}
+
 h1, h2 {
   text-align: center;
   padding-right: 3px;
@@ -12,7 +40,7 @@ h1, h2 {
 h1 {
   font-size: 44px;
 }
-    
+
 h2 {
   font-size: 18px;
 }
@@ -43,9 +71,9 @@ hr {
   display: block;
   margin: 0 auto;
 }
-    
 
-#samples > * {  
+
+#samples > * {
    display: inline-block;
 }
 
@@ -60,7 +88,7 @@ hr {
   font-size: 15px;
   vertical-align: bottom;
   text-align: center;
-  padding: 0px; 
+  padding: 0px;
   border: 2px solid #848484;
   border-right-color: #848484;
   border-bottom: none;

@@ -1,69 +1,51 @@
-var audioSamples = {
-  49  : "majestate-ninja",
-  50  : "ninja-majestate",
-  51  : "nu-pot-sa-inot",
-  52  : "brebex",
-  53  : "elemelix",
-  54  : "taliana",
-  113 : "republistica-interumana",
-  119 : "omul-invizibil",
-  101 : "infrarosu",
-  114 : "unda-prin-zid",
-  116 : "laba",
-  121 : "mos-craciun",
-  97  : "simt-mesajul-muzicii",
-  115 : "americanii-nu-se-baga",
-  100 : "un-fel-de-schen",
-  102 : "am-facut-o-scoala",
-  103 : "vorbesti-cu-mine",
-  104 : "tre-sa-iau-un-pietroi"
-};
+var audioSamples = [
+  { name: "majestate-ninja", volume: 0.4, keyBinding: 49 },
+  { name: "ninja-majestate", volume: 0.4, keyBinding: 50 },
+  { name: "nu-pot-sa-inot", volume: 0.4, keyBinding: 51 },
+  { name: "brebex", volume: 2.5, keyBinding: 52 },
+  { name: "elemelix", volume: 2.4, keyBinding: 53 },
+  { name: "taliana", volume: 2.4, keyBinding: 54 },
+  { name: "republistica-interumana", volume: 1.6, keyBinding: 113 },
+  { name: "omul-invizibil", volume: 1.8, keyBinding: 119 },
+  { name: "infrarosu", volume: 1.6, keyBinding: 101 },
+  { name: "unda-prin-zid", volume: 2, keyBinding: 114 },
+  { name: "laba", volume: 10, keyBinding: 116 },
+  { name: "mos-craciun", volume: 0.6, keyBinding: 121 },
+  { name: "simt-mesajul-muzicii", volume: 1, keyBinding: 97 },
+  { name: "americanii-nu-se-baga", volume: 1.8, keyBinding: 115 },
+  { name: "un-fel-de-schen", volume: 2.4, keyBinding: 100 },
+  { name: "am-facut-o-scoala", volume: 3, keyBinding: 102 },
+  { name: "vorbesti-cu-mine", volume: 1.6, keyBinding: 103 },
+  { name: "tre-sa-iau-un-pietroi", volume: 1.8, keyBinding: 104 }
+]
 
-ion.sound({
-    sounds: [
-        { name: "majestate-ninja", volume: 0.4 },
-        { name: "ninja-majestate", volume: 0.4 },
-        { name: "nu-pot-sa-inot", volume: 0.4 },
-        { name: "brebex", volume: 2.5 },
-        { name: "elemelix", volume: 2.4 },
-        { name: "taliana", volume: 2.4 },
-        { name: "republistica-interumana", volume: 1.6 },
-        { name: "omul-invizibil", volume: 1.8 },
-        { name: "infrarosu", volume: 1.6 },
-        { name: "unda-prin-zid", volume: 2 },
-        { name: "laba", volume: 10 },
-        { name: "mos-craciun", volume: 0.6 },
-        { name: "simt-mesajul-muzicii", volume: 1 },
-        { name: "americanii-nu-se-baga", volume: 1.8 },
-        { name: "un-fel-de-schen", volume: 2.4 },
-        { name: "am-facut-o-scoala", volume: 3 },
-        { name: "vorbesti-cu-mine", volume: 1.6 },
-        { name: "tre-sa-iau-un-pietroi", volume: 1.8 }
-    ],
+ion.sound(
+  {
+    sounds: audioSamples,
     path: "sounds/",
     preload: true,
     multiplay: true,
+  }
+);
 
-});
 
-
-$.each(audioSamples, function(_, value ) {
-  $("#".concat(value)).click(function() {
-    ion.sound.play(value);
+$.each(audioSamples, function(_, sample) {
+  $("#".concat(sample.name)).click(function() {
+    ion.sound.play(sample.name);
   });
 });
 
-$.each(audioSamples, function( key, value ) {
+$.each(audioSamples, function(_, sample) {
   $(document).keypress(function(e) {
-    if(e.which == key) {
+    if(e.which == sample.keyBinding) {
         if (!e.metaKey && !e.ctrlKey) {
-          $("#".concat(value)).addClass("active");
-          ion.sound.play(value);
+          $("#".concat(sample.name)).addClass("active");
+          ion.sound.play(sample.name);
         }
     }
   });
 
   $(document).keyup(function(){
-    $("#".concat(value)).removeClass("active");
+    $("#".concat(sample.name)).removeClass("active");
   });
 });
