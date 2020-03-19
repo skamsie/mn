@@ -1,84 +1,35 @@
-var sampleGroup1 = [
-  { name: "majestate-ninja", label: "majestate ninja",
-    volume: 0.4, keyLabel: 1, keyBinding: 49 },
-  { name: "ninja-majestate", label: "ninja majestate",
-    volume: 0.4, keyLabel: 2, keyBinding: 50 },
-  { name: "nu-pot-sa-inot", label: "nu pot să inot la apă",
-    volume: 0.4, keyLabel: 3, keyBinding: 51 },
-  { name: "brebex", volume: 2.5, label: "brebex",
-    keyLabel: 4, keyBinding: 52, spacer: 1 },
-  { name: "elemelix", volume: 2.4, label: "elemelix",
-    keyLabel: 5, keyBinding: 53, spacer: 1 },
-  { name: "taliana", volume: 2.4, label: "taliană",
-    keyLabel: 6, keyBinding: 54, spacer: 1 },
-  { name: "republistica-interumana", label: "republistica interumană",
-    keyLabel: "Q", volume: 1.6, keyBinding: 113 },
-  { name: "omul-invizibil", label: "omul invizibil",
-    keyLabel: "W", volume: 1.8, keyBinding: 119, spacer: 1 },
-  { name: "infrarosu", label: "infraroșu",
-    keyLabel: "E", volume: 1.6, keyBinding: 101, spacer: 1 },
-  { name: "unda-prin-zid", label: "unda prin zid",
-    keyLabel: "R", volume: 2, keyBinding: 114, spacer: 1 },
-  { name: "laba", label: "laba",
-    keyLabel: "T", volume: 10, keyBinding: 116, spacer: 1 },
-  { name: "mos-craciun", label: "moș crăciun",
-    keyLabel: "Y", volume: 0.6, keyBinding: 121, spacer: 1 },
-  { name: "simt-mesajul-muzicii", label: "simt mesajul muzicii",
-    keyLabel: "A", volume: 1, keyBinding: 97 },
-  { name: "americanii-nu-se-baga", label: "americanii nu se bagă",
-    keyLabel: "S", volume: 1.8, keyBinding: 115 },
-  { name: "un-fel-de-schen", label: "un fel de schen",
-    keyLabel: "D", volume: 2.4, keyBinding: 100 },
-  { name: "am-facut-o-scoala", label: "am facut o școală",
-    keyLabel: "F", volume: 3, keyBinding: 102 },
-  { name: "vorbesti-cu-mine", label: "vorbești cu mine",
-    keyLabel: "G", volume: 1.6, keyBinding: 103 },
-  { name: "tre-sa-iau-un-pietroi", label: "tre să iau un pietroi",
-    keyLabel: "H", volume: 1.5, keyBinding: 104 }
-]
+// https://stackoverflow.com/a/4386514/2535477
+// cleanup event handlers for specific type of event
+var _eventHandlers = {}; // somewhere global
 
-sampleGroup2 = [
-  { name: "indragostita-sau-drogata", label: "îndrăgostită sau drogată",
-    volume: 2.2, keyLabel: 1, keyBinding: 49 },
-  { name: "empty-button", label: "",
-    volume: 0.4, keyLabel: 2, keyBinding: 50, spacer: 2 },
-  { name: "empty-button", label: "",
-    volume: 0.4, keyLabel: 3, keyBinding: 51, spacer: 2 },
-  { name: "empty-button", volume: 2.5, label: "",
-    keyLabel: 4, keyBinding: 52, spacer: 2 },
-  { name: "empty-button", volume: 2.5, label: "",
-    keyLabel: 5, keyBinding: 53, spacer: 2 },
-  { name: "empty-button", volume: 2.5, label: "",
-    keyLabel: 6, keyBinding: 54, spacer: 2 },
-  { name: "empty-button", volume: 2.5, label: "",
-    keyLabel: "Q", keyBinding: 113, spacer: 2 },
-  { name: "empty-button", volume: 2.5, label: "",
-    keyLabel: "W", keyBinding: 119, spacer: 2 },
-  { name: "empty-button", volume: 2.5, label: "",
-    keyLabel: "E", keyBinding: 101, spacer: 2 },
-  { name: "empty-button", volume: 2.5, label: "",
-    keyLabel: "R", keyBinding: 114, spacer: 2 },
-  { name: "empty-button", volume: 2.5, label: "",
-    keyLabel: "T", keyBinding: 116, spacer: 2 },
-  { name: "empty-button", volume: 2.5, label: "",
-    keyLabel: "Y", keyBinding: 121, spacer: 2 },
-  { name: "empty-button", volume: 2.5, label: "",
-    keyLabel: "A", keyBinding: 97, spacer: 2 },
-  { name: "empty-button", volume: 2.5, label: "",
-    keyLabel: "S", keyBinding: 115, spacer: 2 },
-  { name: "empty-button", volume: 2.5, label: "",
-    keyLabel: "D", keyBinding: 100, spacer: 2 },
-  { name: "empty-button", volume: 2.5, label: "",
-    keyLabel: "F", keyBinding: 102, spacer: 2 },
-  { name: "empty-button", volume: 2.5, label: "",
-    keyLabel: "G", keyBinding: 103, spacer: 2 },
-  { name: "empty-button", volume: 2.5, label: "",
-    keyLabel: "H", keyBinding: 104, spacer: 2 }
-]
+function addListener(node, event, handler, capture) {
+  if(!(node in _eventHandlers)) {
+    // _eventHandlers stores references to nodes
+    _eventHandlers[node] = {};
+  }
 
-sampleGroupIds = {
-  "group-1": sampleGroup1,
-  "group-2": sampleGroup2
+  if(!(event in _eventHandlers[node])) {
+    // each entry contains another entry for each event type
+    _eventHandlers[node][event] = [];
+  }
+
+  // capture reference
+  _eventHandlers[node][event].push([handler, capture]);
+  node.addEventListener(event, handler, capture);
+}
+
+function removeAllListeners(node, event) {
+  if(node in _eventHandlers) {
+    var handlers = _eventHandlers[node];
+
+    if(event in handlers) {
+      var eventHandlers = handlers[event];
+      for(var i = eventHandlers.length; i--;) {
+        var handler = eventHandlers[i];
+        node.removeEventListener(event, handler[0], handler[1]);
+      }
+    }
+  }
 }
 
 ion.sound(
@@ -121,17 +72,15 @@ function showSampleGroup(sampleGroup) {
   return buttons
 }
 
-function enableKeyBindings(sampleGroup) {
+function enableKeyBindings(e, sampleGroup) {
   $.each(sampleGroup, function(_, sample) {
-    $(document).keypress(function(e) {
-      if(e.which == sample.keyBinding && $("#".concat(sample.name)).is(":visible")) {
-        console.log(sample)
-        if (!e.metaKey && !e.ctrlKey) {
-          $("#".concat(sample.name)).addClass("active");
-          ion.sound.play(sample.name);
-        }
+    if(e.which == sample.keyBinding && $("#".concat(sample.name)).is(":visible")) {
+      console.log(sample)
+      if (!e.metaKey && !e.ctrlKey) {
+        $("#".concat(sample.name)).addClass("active");
+        ion.sound.play(sample.name);
       }
-    });
+    }
 
     $(document).keyup(function(){
       $("#".concat(sample.name)).removeClass("active");
@@ -139,14 +88,14 @@ function enableKeyBindings(sampleGroup) {
   });
 }
 
-function enableAll(sampleGroup) {
-  enablePlay(sampleGroup);
-  enableKeyBindings(sampleGroup);
-}
-
 $(document).ready(function() {
   $("#samples").html(showSampleGroup(sampleGroup1));
-  enableAll(sampleGroup1);
+
+  enablePlay(sampleGroup1);
+  addListener(
+    document, "keypress",
+    function (e) { enableKeyBindings(e, sampleGroup1) }, false
+  );
 })
 
 $(".page-link").click(function() {
@@ -154,5 +103,12 @@ $(".page-link").click(function() {
   var sampleGroup = sampleGroupIds[groupId];
 
   $("#samples").html(showSampleGroup(sampleGroup));
-  enableAll(sampleGroup);
+
+  enablePlay(sampleGroup);
+
+  removeAllListeners(document, "keypress");
+  addListener(
+    document, "keypress",
+    function (e) { enableKeyBindings(e, sampleGroup) }, false
+  );
 })
