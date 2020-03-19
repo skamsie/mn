@@ -77,10 +77,6 @@ hr {
    display: inline-block;
 }
 
-.empty-div {
-  height: 25px;
-}
-
 .sample-button {
   background-color: #D1D1D1;
   height: 80px;

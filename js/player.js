@@ -34,7 +34,8 @@ function removeAllListeners(node, event) {
 
 ion.sound(
   {
-    sounds: sampleGroup1.concat(sampleGroup2),
+    sounds: sampleGroup1.concat(sampleGroup2)
+      .filter(function(e) { return e.name != "empty-button" }),
     path: "sounds/",
     preload: true,
     multiplay: true
