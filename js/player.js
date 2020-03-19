@@ -35,7 +35,7 @@ function removeAllListeners(node, event) {
 ion.sound(
   {
     sounds: sampleGroup1.concat(sampleGroup2)
-      .filter(function(e) { return e.name != "empty-button" }),
+      .filter(function(e) { return !e.name.startsWith("empty-button") }),
     path: "sounds/",
     preload: true,
     multiplay: true
@@ -76,7 +76,6 @@ function showSampleGroup(sampleGroup) {
 function enableKeyBindings(e, sampleGroup) {
   $.each(sampleGroup, function(_, sample) {
     if(e.which == sample.keyBinding && $("#".concat(sample.name)).is(":visible")) {
-      console.log(sample)
       if (!e.metaKey && !e.ctrlKey) {
         $("#".concat(sample.name)).addClass("active");
         ion.sound.play(sample.name);
@@ -99,6 +98,11 @@ $(document).ready(function() {
   );
 })
 
+document.addEventListener('keypress', logKey);
+
+function logKey(e) {
+  console.log(e)
+}
 $(".page-link").click(function() {
   var groupId = $(this).attr("id");
   var sampleGroup = sampleGroupIds[groupId];
