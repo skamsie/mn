@@ -52,13 +52,14 @@ function enablePlay(sampleGroup) {
 
 function showSampleButton(sample) {
   var spacer = sample.spacer ? "&nbsp;<br />".repeat(sample.spacer) : ""
+  var disabled = sample.name.startsWith("empty-button") ? "disabled" : ""
 
   return "<div class=button-pair>" +
     "<button id=" + sample.name + " class=sample-button>" + sample.label +
       "<br />" + spacer + "<strong>" + sample.keyLabel + "</strong>" +
     "</button>" +
     "<form method='get' action='sounds_zip/" + sample.name + ".zip'>" +
-      "<button class=download-button type='submit'><img src='images/download-icon.png' width=12 ></button>" +
+      "<button class=download-button type='submit'" + disabled + "><img src='images/download-icon.png' width=12 ></button>" +
     "</form>" +
   "</div>"
 }
@@ -72,10 +73,13 @@ function showSampleGroup(sampleGroup) {
 
   return buttons
 }
-
 function enableKeyBindings(e, sampleGroup) {
   $.each(sampleGroup, function(_, sample) {
-    if(e.which == sample.keyBinding && $("#".concat(sample.name)).is(":visible")) {
+    if(
+      e.which == sample.keyBinding &&
+        $("#".concat(sample.name)).is(":visible") &&
+        !(sample.name).startsWith("empty-button")
+    ) {
       if (!e.metaKey && !e.ctrlKey) {
         $("#".concat(sample.name)).addClass("active");
         ion.sound.play(sample.name);
@@ -90,6 +94,7 @@ function enableKeyBindings(e, sampleGroup) {
 
 $(document).ready(function() {
   $("#samples").html(showSampleGroup(sampleGroup1));
+  $("#group-1").css("background-color", "#c8c8c8");
 
   enablePlay(sampleGroup1);
   addListener(
@@ -98,14 +103,22 @@ $(document).ready(function() {
   );
 })
 
-document.addEventListener('keypress', logKey);
+document.addEventListener("keypress", switchSampleGroup);
 
-function logKey(e) {
-  console.log(e)
+function switchSampleGroup(e) {
+  var sampleGroupId = "group-".concat(e.key);
+
+  if(sampleGroupId in sampleGroupIds) {
+    $("#".concat(sampleGroupId)).click()
+  }
 }
+
 $(".page-link").click(function() {
   var groupId = $(this).attr("id");
   var sampleGroup = sampleGroupIds[groupId];
+
+  $(".page-link").css("background-color", "white");
+  $("#".concat(groupId)).css("background-color", "#c8c8c8");
 
   $("#samples").html(showSampleGroup(sampleGroup));
 

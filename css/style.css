@@ -130,10 +130,15 @@ hr {
   margin-right: 3px;
 }
 
-.button-key {
-  color: red;
-}
-
 .page-link {
   cursor: pointer;
+}
+
+.pagination > li > a {
+  color: black;
+}
+
+.pagination > li > a:hover {
+  color: black;
+  background-color: white;
 }
