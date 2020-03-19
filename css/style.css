@@ -137,3 +137,7 @@ hr {
 .button-key {
   color: red;
 }
+
+.page-link {
+  cursor: pointer;
+}
