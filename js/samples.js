@@ -34,7 +34,7 @@ var sampleGroup1 = [
   { name: "vorbesti-cu-mine", label: "vorbești cu mine",
     volume: 1.6, keyLabel: "B", keyBinding: 98 },
   { name: "tre-sa-iau-un-pietroi", label: "tre să iau un pietroi",
-    volume: 1.5, keyLabel: "N", keyBinding: 110 }
+    volume: 1.1, keyLabel: "N", keyBinding: 110 }
 ]
 
 sampleGroup2 = [
